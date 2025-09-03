@@ -8,11 +8,12 @@ function List() {
     const [Submitbtn, changeSubmit] = useState(false);
     const [ShowInput, ChangeShowInput] = useState(false);
     const [tasks, setTasks] = useState([]);
+    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
     async function loadTasks() {
         try {
 
-            const res = await fetch("http://localhost:3000/tasks");
+            const res = await fetch(`${API_URL}/tasks`);
             const data = await res.json()
             console.log("Tasks from backend:", data);
             setTasks(data);
@@ -21,7 +22,7 @@ function List() {
         }
     }
     useEffect(() => {
-        loadTasks(); // 👈 this makes the call when component loads
+        loadTasks(); 
     }, []);
 
 
@@ -34,7 +35,7 @@ function List() {
     async function handleSubmitClick(e) {
         e.preventDefault();
         if (task.trim() !== "") {
-            fetch("http://localhost:3000/tasks", {
+            fetch(`${API_URL}/tasks`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -44,7 +45,7 @@ function List() {
                 .then((res) => res.json())
                 .then((data) => {
                     console.log("Task saved:", data);
-                    ChangeTask(""); // clear input
+                    ChangeTask("");
                     changeTaskAddBtn(true);
                     changeSubmit(false);
                     ChangeShowInput(false);
@@ -57,16 +58,16 @@ function List() {
     return (
         <div className="flex flex-col items-center">
             <form className="flex flex-col justify-center items-center">
-                <h1 className="text-black text-2xl mt-20 mb-10">
+                <h1 className="text-black md:text-2xl texl-xl mt-20 mb-10 ml-5">
                     “What gets scheduled, gets done.” – Peter Drucker
                 </h1>
                 <div className='w-full bg-black rounded-4xl pr-8'>
 
-                    <div className="w-full min-h-40 flex flex-col items-center bg-white/90 shadow-2xl p-3 rounded-4xl justify-between border-2 m-4">
-                        <h1 className="text-4xl mb-5 mt-5">Priority Board 📝</h1>
+                    <div className="w-full min-h-40 flex flex-col items-center bg-white/90 shadow-2xl p-3 rounded-4xl justify-between md:border-2 m-4">
+                        <h1 className="md:text-4xl mb-5 mt-5">Priority Board 📝</h1>
                         <div className='p-10 mb-5 rounded-2xl max-w-150 ' >
                             {tasks.map((t, i) => {
-                                return <p key={t.id} className='text-2xl hover:scale-105 m-3 transition-transform duration-200 p-2 rounded-lg shadow-gray-500 hover:shadow-lg ease-in-out'>{i + 1}. {t.task} <button onClick={async (e) => { e.preventDefault(); await fetch(`http://localhost:3000/tasks/${t.id}`, { method: "DELETE" }); setTasks((prev) => prev.filter((task) => task.id !== t.id)); }} className='float-right hover:cursor-pointer'>✔️</button></p>
+                                return <p key={t.id} className='text-xl md:text-2xl hover:scale-105 m-3 transition-transform duration-200 p-2 rounded-lg shadow-gray-500 hover:shadow-lg ease-in-out'>{i + 1}. {t.task} <button onClick={async (e) => { e.preventDefault(); await fetch(`${API_URL}/tasks/${t.id}`, { method: "DELETE" }); setTasks((prev) => prev.filter((task) => task.id !== t.id)); }} className='float-right hover:cursor-pointer'>✔️</button></p>
                             })}
                         </div>
 
@@ -74,8 +75,8 @@ function List() {
                             <input
                                 type="text"
                                 onChange={(e) => ChangeTask(e.target.value)}
-                                placeholder="What do you want to achieve today?"
-                                className="p-4 w-[400px] rounded-xl mb-10 border-4 bg-amber-50"
+                                placeholder="Enter your task..."
+                                className="p-4  md:w-[400px] rounded-xl mb-10 border-4 bg-amber-50"
                             />
                         )}
                     </div>
@@ -83,7 +84,7 @@ function List() {
                 {Submitbtn && (
                     <button
                         onClick={handleSubmitClick}
-                        className="bg-black text-white p-5 rounded-2xl  w-40 mt-5"
+                        className="bg-black text-white p-5 rounded-2xl w-10 w-40 mt-5"
                     >
                         Submit
                     </button>
@@ -93,7 +94,7 @@ function List() {
             {TaskAddbtn && (
                 <button
                     onClick={handleAddClick}
-                    className="bg-black text-white p-5 rounded-2xl w-40 mt-5"
+                    className="bg-black text-white md:p-5 p-3 rounded-2xl w-40 mt-5"
                 >
                     Add Task
                 </button>

@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from "cors";
 
+
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -33,7 +34,6 @@ app.get("/tasks", (req, res) => {
 app.delete("/tasks/:id", (req, res) => {
     const { id } = req.params;
     tasks = tasks.filter((t) => t.id !== parseInt(id));
-
     res.json({ message: "Task deleted successfully" });
 });
 
