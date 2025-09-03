@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import AddBtn from './AddInput'
 
 
 function List() {
@@ -64,7 +63,7 @@ function List() {
                 <div className='w-full bg-black rounded-4xl pr-8'>
 
                     <div className="w-full min-h-40 flex flex-col items-center bg-white/90 shadow-2xl p-3 rounded-4xl justify-between md:border-2 m-4">
-                        <h1 className="md:text-4xl mb-5 mt-5">Priority Board 📝</h1>
+                        <h1 className="md:text-3xl mb-5 mt-5">Priority Board 📝</h1>
                         <div className='p-10 mb-5 rounded-2xl max-w-150 ' >
                             {tasks.map((t, i) => {
                                 return <p key={t.id} className='text-xl md:text-2xl hover:scale-105 m-3 transition-transform duration-200 p-2 rounded-lg shadow-gray-500 hover:shadow-lg ease-in-out'>{i + 1}. {t.task} <button onClick={async (e) => { e.preventDefault(); await fetch(`${API_URL}/tasks/${t.id}`, { method: "DELETE" }); setTasks((prev) => prev.filter((task) => task.id !== t.id)); }} className='float-right hover:cursor-pointer'>✔️</button></p>
