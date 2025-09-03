@@ -4,8 +4,6 @@ import NavBar from './components/NavBar'
 import List from './components/List'
 import Footer from './components/footer'
 
-
-import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
